@@ -1,5 +1,6 @@
 import { Answer } from 'src/answers/entities/answer.entity';
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Category } from 'src/category/entities/category.entity';
 
 @Entity()
 export class Question {
@@ -11,6 +12,8 @@ export class Question {
   content: string;
   @Column({ type: 'datetime' })
   postTime: Date;
-  @OneToMany(() => Answer, (answer) => answer.question)
+  @OneToMany(() => Answer, (answer) => answer.question, { eager: true })
   answers: Answer[];
+  @ManyToOne(() => Category, (category) => category.questions)
+  category: Category;
 }
