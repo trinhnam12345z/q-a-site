@@ -11,6 +11,6 @@ export class Question {
   content: string;
   @Column({ type: 'datetime' })
   postTime: Date;
-  @OneToMany(() => Answer, (answer) => answer.question)
+  @OneToMany(() => Answer, (answer) => answer.question, { eager : true })
   answers: Answer[];
 }
