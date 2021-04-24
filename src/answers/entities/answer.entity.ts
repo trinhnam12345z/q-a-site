@@ -1,5 +1,6 @@
 import { Question } from 'src/questions/entities/question.entity';
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { User } from 'src/users/entities/user.entity';
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class Answer {
@@ -10,5 +11,9 @@ export class Answer {
   @Column({ type: 'datetime' })
   postTime: Date;
   @ManyToOne(() => Question, (question) => question.answers)
+  @JoinColumn()
   question: Question;
+  @ManyToOne(() => User, user => user.answers)
+  @JoinColumn()
+  user: User;
 }
