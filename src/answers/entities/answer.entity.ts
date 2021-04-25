@@ -13,7 +13,7 @@ export class Answer {
   @ManyToOne(() => Question, (question) => question.answers)
   @JoinColumn()
   question: Question;
-  @ManyToOne(() => User, user => user.answers)
+  @ManyToOne(() => User, user => user.answers,{ eager: true })
   @JoinColumn()
   user: User;
 }

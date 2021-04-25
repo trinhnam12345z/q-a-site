@@ -6,15 +6,20 @@ import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColum
 export class Question {
   @PrimaryGeneratedColumn()
   questionID: number;
+
   @Column({ type: 'varchar', length: 150 })
   title: string;
+
   @Column({ type: 'varchar', length: 300 })
   content: string;
+
   @Column({ type: 'datetime' })
   postTime: Date;
+
   @OneToMany(() => Answer, (answer) => answer.question, { eager: true })
   answers: Answer[];
-  @ManyToOne(() => User, user => user.questions)
+  
+  @ManyToOne(() => User, user => user.questions, { eager: true })
   @JoinColumn()
   user: User;
 }

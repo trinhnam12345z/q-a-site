@@ -6,16 +6,22 @@ import { Column, Entity, JoinColumn, OneToMany, PrimaryGeneratedColumn } from 't
 export class User {
     @PrimaryGeneratedColumn()
     id: number;
+
     @Column({ nullable: true })
     avatar: string;
+
     @Column({ type: 'varchar', length: 250 })
     fullName: string;
+
     @Column({ type: 'varchar', length: 50 })
     email: string;
+
     @Column({ type: 'varchar', length: 250 })
     password: string;
+
     @OneToMany(() => Question, question => question.user)
     questions: Question[];
+    
     @OneToMany(() => Answer, answer => answer.user)
     answers: Answer[];
 }

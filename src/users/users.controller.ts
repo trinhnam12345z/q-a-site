@@ -3,13 +3,14 @@ import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { ApiTags } from '@nestjs/swagger';
+import { SignInDto } from './dto/sign-in.dto';
 
 @ApiTags("User")
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
-  @Post()
+  @Post('sign-up')
   signUp(@Body() createUserDto: CreateUserDto) {
     return this.usersService.signUp(createUserDto);
   }
@@ -25,9 +26,9 @@ export class UsersController {
   }
   
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.usersService.findOne(+id);
+  @Post('sign-in')
+  signIn(@Body() signInDto: SignInDto) {
+    return this.usersService.signIn(signInDto);
   }
 
   @Delete(':id')

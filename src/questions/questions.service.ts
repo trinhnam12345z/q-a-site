@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { User } from 'src/users/entities/user.entity';
 import { Repository } from 'typeorm';
 import { CreateQuestionDto } from './dto/create-question.dto';
 import { UpdateQuestionDto } from './dto/update-question.dto';
@@ -10,13 +11,18 @@ export class QuestionsService {
   constructor(
     @InjectRepository(Question)
     private readonly questionRepository: Repository<Question>,
-  ) {}
+    @InjectRepository(User)
+    private readonly userRepository: Repository<User>,
 
-  create(createQuestionDto: CreateQuestionDto): Promise<Question> {
+  ) { }
+
+  async create(createQuestionDto: CreateQuestionDto, userId: number): Promise<Question> {
+    const user = await this.userRepository.findOne(userId);
     const question = new Question();
     question.title = createQuestionDto.title;
     question.content = createQuestionDto.content;
     question.postTime = new Date();
+    question.user = user;
     return this.questionRepository.save(question);
   }
 

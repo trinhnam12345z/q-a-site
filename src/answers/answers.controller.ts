@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Put } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Put, Headers } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { AnswersService } from './answers.service';
 import { CreateAnswerDto } from './dto/create-answer.dto';
@@ -10,8 +10,9 @@ export class AnswersController {
   constructor(private readonly answersService: AnswersService) {}
 
   @Post()
-  create(@Body() createAnswerDto: CreateAnswerDto) {
-    return this.answersService.create(createAnswerDto);
+  create(@Headers("user_id") userId: number,@Body() createAnswerDto: CreateAnswerDto) {
+  console.log(userId);
+    return this.answersService.create(createAnswerDto,userId);
   }
 
   @Put(':id')
