@@ -18,28 +18,26 @@ export class LikeService {
     private readonly questionRepository: Repository<Question>,
   ) { }
 
-  async like(createLikeDto: CreateLikeDto, userId: number): Promise<Like> {
-    const like = new Like();
-    const user = await this.userRepository.findOne(userId);
-    const question = await this.questionRepository.findOne({ questionID: createLikeDto.questionId, }); 
-    like.user = user;
-    like.question = question;
-    return this.likeRepository.save(like);
-  }
-
-
-
-
-
   async create(createLikeDto: CreateLikeDto, userId: number): Promise<Like> {
-    const like = new Like();
-    const user = await this.userRepository.findOne(userId);
-    const question = await this.questionRepository.findOne({ questionID: createLikeDto.questionId, }); 
-    console.log(user);
-    console.log(question);
-    like.user = user;
-    like.question = question;
-    return this.likeRepository.save(like);
+    let like = await this.likeRepository.findOne({ where: { questionQuestionID: createLikeDto.questionId, userId } });
+    console.log(like);
+    if (!like) {
+      like = new Like();
+      const user = await this.userRepository.findOne(userId);
+      const question = await this.questionRepository.findOne({ questionID: createLikeDto.questionId, });
+      like.user = user;
+      like.question = question;
+      return this.likeRepository.save(like);
+    } else {
+
+      await this.likeRepository.update(
+        {
+          id: like.id
+        },
+        { isDelete: !like.isDelete });
+
+        return like;
+    }
   }
 
   async delete(id: number, updateLikeDto: UpdateLikeDto): Promise<Like> {
@@ -49,7 +47,7 @@ export class LikeService {
   }
 
   findAll() {
-    return this.likeRepository.find({isDelete:false});
+    return this.likeRepository.find({ isDelete: false });
   }
 
   findOne(id: number) {

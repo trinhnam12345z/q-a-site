@@ -33,8 +33,12 @@ export class QuestionsService {
     return this.questionRepository.save(question);
   }
 
-  findAll() {
-    return this.questionRepository.find();
+  async findAll() {
+    const qs = await this.questionRepository.find();
+    return qs.map(q => {
+      q.likes = q.likes.filter(l => !l.isDelete);
+      return q;
+    })
   }
 
   findOne(id: number) {
