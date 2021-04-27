@@ -1,13 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { IsNull, Repository } from 'typeorm';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
 import { Category } from './entities/category.entity';
 
 @Injectable()
 export class CategoryService {
-
   constructor(
     @InjectRepository(Category)
     private readonly categoryRepository: Repository<Category>,
@@ -19,14 +18,20 @@ export class CategoryService {
     return this.categoryRepository.save(category);
   }
 
-  async update(id: number, updateCategoryDto: UpdateCategoryDto): Promise<Category> {
+  async update(
+    id: number,
+    updateCategoryDto: UpdateCategoryDto,
+  ): Promise<Category> {
     const category = await this.categoryRepository.findOne(id);
     category.name = updateCategoryDto.name;
     return this.categoryRepository.save(category);
   }
 
   findAll() {
-    return this.categoryRepository.find();
+    return this.categoryRepository.find({
+      relations: ['subcategory'],
+      where: { category: IsNull() },
+    });
   }
 
   findOne(id: number) {

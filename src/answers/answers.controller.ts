@@ -15,7 +15,7 @@ export class AnswersController {
   }
 
   @Put(':id')
-  update(@Param('id') id: string, @Body() updateAnswerDto: UpdateAnswerDto) {
+  update(@Param('id') id: number, @Body() updateAnswerDto: UpdateAnswerDto) {
     return this.answersService.update(+id, updateAnswerDto);
   }
 
@@ -30,7 +30,7 @@ export class AnswersController {
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
+  remove(@Param('id') id: number) {
     return this.answersService.remove(+id);
   }
 }

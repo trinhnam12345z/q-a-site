@@ -18,7 +18,7 @@ export class QuestionsService {
   async create(createQuestionDto: CreateQuestionDto): Promise<Question> {
     const question = new Question();
     const category = await this.categoryRepository.findOne({
-      categoryId: createQuestionDto.category,
+      id: createQuestionDto.categoryId,
     });
     question.title = createQuestionDto.title;
     question.content = createQuestionDto.content;
@@ -30,7 +30,7 @@ export class QuestionsService {
   async update(id: number, updateQuestionDto: UpdateQuestionDto): Promise<Question> {
     const question = await this.questionRepository.findOne(id);
     const category = await this.categoryRepository.findOne({
-      categoryId: updateQuestionDto.category,
+      id: updateQuestionDto.categoryId,
     });
     question.title = updateQuestionDto.title;
     question.content = updateQuestionDto.content;
