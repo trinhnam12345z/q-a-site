@@ -29,21 +29,12 @@ export class LikeService {
       like.question = question;
       return this.likeRepository.save(like);
     } else {
-
       await this.likeRepository.update(
-        {
-          id: like.id
-        },
+        { id: like.id },
         { isDelete: !like.isDelete });
-
-        return like;
+      like.isDelete = !like.isDelete;
+      return like;
     }
-  }
-
-  async delete(id: number, updateLikeDto: UpdateLikeDto): Promise<Like> {
-    const like = await this.likeRepository.findOne(id);
-    like.isDelete = true;
-    return this.likeRepository.save(like);
   }
 
   findAll() {

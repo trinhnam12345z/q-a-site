@@ -22,7 +22,7 @@ export class QuestionsController {
   @Get()
   findAll(@Headers("user_id") userId: number) {
     // console.log(userId);
-    return this.questionsService.findAll();
+    return this.questionsService.findAll(userId);
   }
 
   @Get(':id')

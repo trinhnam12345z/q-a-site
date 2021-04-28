@@ -13,11 +13,6 @@ export class LikeController {
   create(@Headers("user_id") userId: number,@Body() createLikeDto: CreateLikeDto) {
     return this.likeService.create(createLikeDto,userId);
   }
-  
-  @Delete(':id')
-  update(@Param('id') id: string, @Body() updateLikeDto: UpdateLikeDto) {
-    return this.likeService.delete(+id, updateLikeDto);
-  }
 
   @Get()
   findAll() {
