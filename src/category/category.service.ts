@@ -12,9 +12,11 @@ export class CategoryService {
     private readonly categoryRepository: Repository<Category>,
   ) {}
 
-  create(createCategoryDto: CreateCategoryDto): Promise<Category> {
+  async create(createCategoryDto: CreateCategoryDto): Promise<Category> {
     const category = new Category();
+    const parent = await this.categoryRepository.findOne({id: createCategoryDto.categoryId})
     category.name = createCategoryDto.name;
+    category.category = parent;
     return this.categoryRepository.save(category);
   }
 
@@ -32,13 +34,5 @@ export class CategoryService {
       relations: ['subcategory'],
       where: { category: IsNull() },
     });
-  }
-
-  findOne(id: number) {
-    return this.categoryRepository.findOne(id);
-  }
-
-  remove(id: number) {
-    return this.categoryRepository.delete(id);
   }
 }

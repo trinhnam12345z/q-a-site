@@ -23,14 +23,4 @@ export class CategoryController {
   findAll() {
     return this.categoryService.findAll();
   }
-
-  @Get(':id')
-  findOne(@Param('id') id: number) {
-    return this.categoryService.findOne(+id);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: number) {
-    return this.categoryService.remove(+id);
-  }
 }
